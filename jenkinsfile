@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Check out your source code from version control (e.g., Git)
+                checkout scm
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Build your Java project (e.g., compile code)
+                sh 'javac -version' // You can replace this with your build commands
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                // Run tests on your Java project (e.g., JUnit tests)
+                sh 'java -version' // You can replace this with your test commands
+            }
+        }
+        
+        stage('Archive Artifacts') {
+            steps {
+                // Archive build artifacts (e.g., JAR files)
+                archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+            }
+        }
+    }
+    
+    post {
+        success {
+            // This block is executed when the pipeline succeeds
+            echo 'Pipeline succeeded! Your Java project is built, tested, and artifacts are archived.'
+        }
+        
+        failure {
+            // This block is executed when the pipeline fails
+            echo 'Pipeline failed. Check the build and test logs for details.'
+        }
+    }
+}
